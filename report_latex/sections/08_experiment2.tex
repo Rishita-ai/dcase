@@ -1,0 +1,21 @@
+\section{Purpose}
+Reconstruction error treats every one of the 1280 output values alike. Some bands, however, are always reconstructed poorly even for normal sound, while others are reconstructed almost perfectly, and an error in the second kind of band is far more telling than an error in the first. Experiment~2 asks whether a distance that accounts for this structure, the Mahalanobis distance from the distribution of normal features, detects anomalies better than the plain MSE. We apply it in two feature spaces: the eight-dimensional latent code, which tests whether anomalies are mapped to unusual codes, and the 256-dimensional residual frame, which reweights the reconstruction error by its normal variability.
+
+\section{Statistics of normal data}
+After training, Part~1 passes every training window of a model through the network once more and accumulates, in double precision, the mean $\mu$ and covariance $\Sigma$ of the latent codes $z$ and of the residual frames $r = x - \hat{x}$ reshaped to one 256-dimensional row per frame. This is done for three groups of normal training recordings: \texttt{source\_train} (990 source normals), \texttt{target\_train} (the 10 target normals) and \texttt{all\_train} (all 1\,000). No \texttt{validation\_source} group exists, since the protocol holds nothing out. The covariance is regularised and inverted as
+\begin{equation}
+\Sigma_\mathrm{reg} = \Sigma + \lambda I, \qquad \lambda = 10^{-3}\,\frac{\operatorname{tr}\Sigma}{d}, \qquad P = \Sigma_\mathrm{reg}^{-1},
+\label{eq:reg}
+\end{equation}
+where $d$ is 8 or 256 and the inverse is obtained by a Cholesky solve. The relative choice of $\lambda$ keeps it meaningful whatever the scale of the features; the Cholesky factorisation doubles as a proof that $\Sigma_\mathrm{reg}$ is positive definite. For every one of the 84 statistic files the pipeline records dimensions, smallest eigenvalue, condition number, inverse error and sample count, and all passed.
+
+\section{Mahalanobis scores}
+The squared Mahalanobis distance \cite{mahalanobis1936} of a vector $v$ from the normal distribution of its group is
+\begin{equation}
+D^2(v) = (v-\mu)^{\top} P\,(v-\mu).
+\label{eq:maha}
+\end{equation}
+The \emph{latent} score of a recording is the average of $D^2(z_w)$ over its $W$ windows; the \emph{residual} score is the average of $D^2(r)$ over all $5W$ residual frames. Part~2 scores each model against the statistics of the recordings it was trained on, \texttt{source\_train} for Model~A and \texttt{all\_train} for Model~B; the distances to all three groups were nevertheless stored in the score files for later analysis. It is worth keeping the two kinds of score apart in one's mind: MSE measures how badly a window is rebuilt, whereas the Mahalanobis distance measures how far a feature vector lies from where normal feature vectors lie, after correcting for their correlations.
+
+\section{Threshold calibration}
+To turn a score into a decision we followed the official baseline. For each machine, model and scoring method the scores of the model's own training normals (990 for Model~A, 1\,000 for Model~B) are collected, a Gamma distribution with location fixed at zero is fitted by maximum likelihood, and its 90th percentile becomes the threshold. This gives 42 thresholds, stored with their fitted parameters and the empirical 90th percentile. We want to be explicit about what this does and does not achieve. No test recording and no test label influenced any threshold. But the calibration recordings are the ones the model was trained on, and a model reconstructs what it has fitted better than what it has not; their scores are therefore systematically lower than those of unseen normal recordings, and a threshold set from them is optimistic. This is not an oversight that could have been avoided within the protocol: once every normal recording is used for training, there is no independent normal recording left to calibrate on. Section~\ref{sec:rates} measures the size of the effect.

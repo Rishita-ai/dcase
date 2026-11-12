@@ -1,0 +1,308 @@
+{
+  "ToyCar": {
+    "status": "COMPLETE",
+    "steps": {
+      "archive_present": {
+        "value": true,
+        "at": "2026-11-10T12:14:19.109831"
+      },
+      "extracted": {
+        "value": true,
+        "at": "2026-11-09T16:51:09.594706"
+      },
+      "audit": {
+        "value": true,
+        "at": "2026-11-09T16:51:11.753582"
+      },
+      "features": {
+        "value": true,
+        "at": "2026-11-09T16:51:56.700877"
+      },
+      "train_source_only": {
+        "value": true,
+        "at": "2026-11-09T17:06:39.488400"
+      },
+      "train_source_target": {
+        "value": true,
+        "at": "2026-11-09T17:19:42.108166"
+      },
+      "mahalanobis": {
+        "value": true,
+        "at": "2026-11-09T17:19:54.681511"
+      },
+      "required_files_present": {
+        "value": true,
+        "at": "2026-11-09T17:19:55.023407"
+      },
+      "verification": {
+        "value": true,
+        "at": "2026-11-09T17:19:55.027174"
+      }
+    },
+    "notes": []
+  },
+  "ToyCarEmu": {
+    "status": "COMPLETE",
+    "steps": {
+      "archive_present": {
+        "value": true,
+        "at": "2026-11-10T12:14:20.529469"
+      },
+      "extracted": {
+        "value": true,
+        "at": "2026-11-09T17:20:27.949370"
+      },
+      "audit": {
+        "value": true,
+        "at": "2026-11-09T17:20:30.287617"
+      },
+      "features": {
+        "value": true,
+        "at": "2026-11-09T17:20:59.934828"
+      },
+      "train_source_only": {
+        "value": true,
+        "at": "2026-11-09T17:37:18.369505"
+      },
+      "train_source_target": {
+        "value": true,
+        "at": "2026-11-09T17:51:46.341750"
+      },
+      "mahalanobis": {
+        "value": true,
+        "at": "2026-11-09T17:51:59.257592"
+      },
+      "required_files_present": {
+        "value": true,
+        "at": "2026-11-09T17:51:59.590032"
+      },
+      "verification": {
+        "value": true,
+        "at": "2026-11-09T17:51:59.592921"
+      }
+    },
+    "notes": []
+  },
+  "Fan": {
+    "status": "COMPLETE",
+    "steps": {
+      "archive_present": {
+        "value": true,
+        "at": "2026-11-10T12:14:22.788783"
+      },
+      "extracted": {
+        "value": true,
+        "at": "2026-11-09T17:52:25.451071"
+      },
+      "audit": {
+        "value": true,
+        "at": "2026-11-09T17:52:27.313390"
+      },
+      "features": {
+        "value": true,
+        "at": "2026-11-09T17:52:49.360767"
+      },
+      "train_source_only": {
+        "value": true,
+        "at": "2026-11-09T18:06:34.728609"
+      },
+      "train_source_target": {
+        "value": true,
+        "at": "2026-11-09T18:18:31.276573"
+      },
+      "mahalanobis": {
+        "value": true,
+        "at": "2026-11-09T18:18:43.213709"
+      },
+      "required_files_present": {
+        "value": true,
+        "at": "2026-11-09T18:18:43.663255"
+      },
+      "verification": {
+        "value": true,
+        "at": "2026-11-09T18:18:43.666005"
+      }
+    },
+    "notes": []
+  },
+  "GearboxEmu": {
+    "status": "COMPLETE",
+    "steps": {
+      "archive_present": {
+        "value": true,
+        "at": "2026-11-10T12:14:24.151892"
+      },
+      "extracted": {
+        "value": true,
+        "at": "2026-11-09T18:19:14.099535"
+      },
+      "audit": {
+        "value": true,
+        "at": "2026-11-09T18:19:15.874201"
+      },
+      "features": {
+        "value": true,
+        "at": "2026-11-09T18:19:38.036012"
+      },
+      "train_source_only": {
+        "value": true,
+        "at": "2026-11-09T18:33:16.751926"
+      },
+      "train_source_target": {
+        "value": true,
+        "at": "2026-11-09T18:45:13.864349"
+      },
+      "mahalanobis": {
+        "value": true,
+        "at": "2026-11-09T18:45:25.876662"
+      },
+      "required_files_present": {
+        "value": true,
+        "at": "2026-11-09T18:45:26.197698"
+      },
+      "verification": {
+        "value": true,
+        "at": "2026-11-09T18:45:26.201157"
+      }
+    },
+    "notes": []
+  },
+  "BearingEmu": {
+    "status": "COMPLETE",
+    "steps": {
+      "archive_present": {
+        "value": true,
+        "at": "2026-11-10T12:14:26.456480"
+      },
+      "extracted": {
+        "value": true,
+        "at": "2026-11-09T18:45:49.620016"
+      },
+      "audit": {
+        "value": true,
+        "at": "2026-11-09T18:45:51.569205"
+      },
+      "features": {
+        "value": true,
+        "at": "2026-11-09T18:46:15.071765"
+      },
+      "train_source_only": {
+        "value": true,
+        "at": "2026-11-09T18:59:56.523466"
+      },
+      "train_source_target": {
+        "value": true,
+        "at": "2026-11-09T19:11:57.646250"
+      },
+      "mahalanobis": {
+        "value": true,
+        "at": "2026-11-09T19:12:09.880577"
+      },
+      "required_files_present": {
+        "value": true,
+        "at": "2026-11-09T19:12:10.163709"
+      },
+      "verification": {
+        "value": true,
+        "at": "2026-11-09T19:12:10.167232"
+      }
+    },
+    "notes": []
+  },
+  "SlideRailEmu": {
+    "status": "COMPLETE",
+    "steps": {
+      "archive_present": {
+        "value": true,
+        "at": "2026-11-10T12:14:28.577429"
+      },
+      "extracted": {
+        "value": true,
+        "at": "2026-11-09T19:12:38.804432"
+      },
+      "audit": {
+        "value": true,
+        "at": "2026-11-09T19:12:40.582946"
+      },
+      "features": {
+        "value": true,
+        "at": "2026-11-09T19:13:03.520964"
+      },
+      "train_source_only": {
+        "value": true,
+        "at": "2026-11-09T19:26:49.034241"
+      },
+      "train_source_target": {
+        "value": true,
+        "at": "2026-11-09T19:38:53.120708"
+      },
+      "mahalanobis": {
+        "value": true,
+        "at": "2026-11-09T19:39:05.448959"
+      },
+      "required_files_present": {
+        "value": true,
+        "at": "2026-11-09T19:39:05.732709"
+      },
+      "verification": {
+        "value": true,
+        "at": "2026-11-09T19:39:05.735600"
+      }
+    },
+    "notes": []
+  },
+  "ValveEmu": {
+    "status": "COMPLETE",
+    "steps": {
+      "archive_present": {
+        "value": true,
+        "at": "2026-11-10T12:14:30.711977"
+      },
+      "extracted": {
+        "value": true,
+        "at": "2026-11-09T19:39:33.763436"
+      },
+      "audit": {
+        "value": true,
+        "at": "2026-11-09T19:39:35.829864"
+      },
+      "features": {
+        "value": true,
+        "at": "2026-11-09T19:39:57.879576"
+      },
+      "train_source_only": {
+        "value": true,
+        "at": "2026-11-09T19:53:42.793125"
+      },
+      "train_source_target": {
+        "value": true,
+        "at": "2026-11-09T20:05:44.391533"
+      },
+      "mahalanobis": {
+        "value": true,
+        "at": "2026-11-09T20:05:56.192504"
+      },
+      "required_files_present": {
+        "value": true,
+        "at": "2026-11-09T20:05:56.732148"
+      },
+      "verification": {
+        "value": true,
+        "at": "2026-11-09T20:05:56.744800"
+      }
+    },
+    "notes": []
+  },
+  "_handover": {
+    "status": "VERIFIED",
+    "steps": {
+      "handover_zip": {
+        "value": true,
+        "at": "2026-11-10T12:21:03.023700"
+      }
+    },
+    "notes": [
+      "zip with ['ToyCar', 'ToyCarEmu', 'Fan', 'GearboxEmu', 'BearingEmu', 'SlideRailEmu', 'ValveEmu']"
+    ]
+  }
+}

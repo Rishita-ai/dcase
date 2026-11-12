@@ -1,0 +1,19 @@
+\begin{table}[!htb]
+\centering
+\caption{Decision rates on the pooled test sets (1400 normal and 1400 anomalous recordings) at the Gamma 90th-percentile threshold fitted on training-set scores. A false-positive rate above 0.10 on normal test recordings quantifies the optimism of training-set calibration.}
+\label{tab:rates}
+\footnotesize
+\renewcommand{\arraystretch}{1.18}
+\begin{tabular}{lrrrrr}
+\toprule
+Model & Scoring & FPR normals & TPR anomalies & FPR src normals & FPR tgt normals \\
+\midrule
+A & Lat.\,Mah. & 0.086 & 0.060 & 0.094 & 0.077 \\
+A & MSE & 0.363 & 0.426 & 0.254 & 0.471 \\
+A & Res.\,Mah. & 0.359 & 0.440 & 0.246 & 0.471 \\
+B & Lat.\,Mah. & 0.114 & 0.077 & 0.103 & 0.126 \\
+B & MSE & 0.337 & 0.419 & 0.240 & 0.434 \\
+B & Res.\,Mah. & 0.340 & 0.431 & 0.217 & 0.463 \\
+\bottomrule
+\end{tabular}
+\end{table}

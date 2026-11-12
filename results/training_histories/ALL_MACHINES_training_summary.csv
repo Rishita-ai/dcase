@@ -1,0 +1,15 @@
+machine,model,status,source_recordings,target_recordings,validation_recordings,train_windows,epochs_run,selected_epoch,checkpoint_selection,best_val_loss,final_train_loss,training_minutes,device,reused
+ToyCar,source_only,COMPLETE,990,0,0,336600,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.4742176890645397,14.6,cuda,False
+ToyCar,source_target,COMPLETE,990,10,0,340000,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.4751482851444238,13.0,cuda,False
+ToyCarEmu,source_only,COMPLETE,990,0,0,368280,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.4962601749140961,16.3,cuda,False
+ToyCarEmu,source_target,COMPLETE,990,10,0,372000,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.4964773882608617,14.4,cuda,False
+Fan,source_only,COMPLETE,990,0,0,305910,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.7293634278890077,13.7,cuda,False
+Fan,source_target,COMPLETE,990,10,0,309000,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.7311634835173695,11.9,cuda,False
+GearboxEmu,source_only,COMPLETE,990,0,0,305910,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.3755714641743569,13.6,cuda,False
+GearboxEmu,source_target,COMPLETE,990,10,0,309000,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.3770225814481164,11.9,cuda,False
+BearingEmu,source_only,COMPLETE,990,0,0,305910,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.4723872461760264,13.7,cuda,False
+BearingEmu,source_target,COMPLETE,990,10,0,309000,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.4717814560853062,12.0,cuda,False
+SlideRailEmu,source_only,COMPLETE,990,0,0,305910,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.4654145678583302,13.7,cuda,False
+SlideRailEmu,source_target,COMPLETE,990,10,0,309000,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.4638261730352905,12.0,cuda,False
+ValveEmu,source_only,COMPLETE,990,0,0,305910,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.5215295639070034,13.7,cuda,False
+ValveEmu,source_target,COMPLETE,990,10,0,309000,100,100,final epoch of fixed budget (no validation set),n/a (no validation set),0.5219224712625454,12.0,cuda,False

@@ -1,0 +1,13 @@
+\begin{table}[!htb]\centering\footnotesize\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{0.3\textwidth}p{0.64\textwidth}@{}}\toprule
+\textbf{Part 1 model training} & Google Colab, CUDA GPU runtime, 9 November 2026, 16:48 to 20:06 UTC. Evidence: \texttt{device=cuda} in the session log and \texttt{device: cuda} with start and finish times in all 14 checkpoints. GPU model not recorded. \\
+\textbf{Part 1 handover verification} & Google Colab, CPU runtime, 10 November 2026 (Python 3.13.18, PyTorch 2.14.1+cpu, librosa 0.11.0, soundfile 0.14.0, NumPy 2.4.6, SciPy 1.16.3, scikit-learn 1.6.1). This session only re-assembled and verified the handover archive; it is the session recorded in \texttt{environment.json}. \\
+\textbf{Part 2 scoring, thresholds, metrics, application} & Windows laptop, Python 3, PyTorch on CPU, librosa, soundfile, SciPy, scikit-learn, Streamlit. \\
+\textbf{Persistent storage} & Google Drive folder \texttt{DCASE\_2026\_PART1\_COMPLETE/}; handover archive of 225 files, 55.3\,MB. \\
+\textbf{Reproducibility} & Seed 42 for Python, NumPy and PyTorch; all configuration values stored in \texttt{common\_config.json} and inside every checkpoint. \\
+\bottomrule\end{tabular}
+\caption{Implementation environment. The training session and the later verification session ran on different hardware and are listed separately.}
+\label{tab:env}
+\end{table}
+
+The Colab notebook was written to survive the interruptions that free Colab sessions suffer: every epoch writes a resume checkpoint, every finished experiment a completion marker, and a pipeline state file tracks each machine, so a second run continues where the first stopped. As it happened, the training session of 9~November ran to completion without interruption, which the continuous timestamps in \texttt{logs/part1\_master.log} confirm.

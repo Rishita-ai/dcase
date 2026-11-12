@@ -1,0 +1,15 @@
+The model is a symmetric fully connected Autoencoder:
+\begin{equation}
+1280 \;\to\; 128 \;\to\; 128 \;\to\; 128 \;\to\; 128 \;\to\; \underbrace{8}_{\text{latent } z} \;\to\; 128 \;\to\; 128 \;\to\; 128 \;\to\; 128 \;\to\; 1280 .
+\label{eq:topology}
+\end{equation}
+Every hidden layer is followed by batch normalisation and a ReLU; the output layer is linear so that it can reproduce standardised values of either sign. The network has 432\,408 trainable parameters. For an input window $x \in \mathbb{R}^{1280}$ the encoder produces the code $z = f_\theta(x) \in \mathbb{R}^{8}$ and the decoder the reconstruction $\hat{x} = g_\phi(z)$. Training minimises the mean squared reconstruction error over all training windows,
+\begin{equation}
+\mathcal{L}(\theta,\phi) = \frac{1}{N}\sum_{i=1}^{N} \frac{1}{1280}\,\lVert x_i - \hat{x}_i \rVert_2^2 .
+\label{eq:loss}
+\end{equation}
+The optimiser is Adam with learning rate $10^{-3}$, batch size 256 and random seed 42, for a fixed budget of 100 epochs.
+
+The topology is that of the official baseline \cite{harada2023}; only the input and output width follow our 1280-dimensional two-channel features instead of the baseline's 640. One Python class, \texttt{DCASEAutoencoder}, serves all fourteen models, and its \texttt{forward} method returns both $\hat{x}$ and $z$. That small choice is what lets Part~2 score in the latent space without touching the model.
+
+An eight-dimensional bottleneck is a strong compression of a 1280-dimensional window. The idea behind using it for anomaly detection is that the decoder can only rebuild patterns it has seen during training; a window that contains an unfamiliar sound should therefore come back distorted, and the distortion is the anomaly signal. Whether the bottleneck itself also places unfamiliar windows at unusual positions in $z$-space is an empirical question, and Experiment~2 answers it.

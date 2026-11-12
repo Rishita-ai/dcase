@@ -1,0 +1,23 @@
+\section{Problem statement}
+For each machine type we are given normal training recordings from a source domain (990 clips) and a target domain (10 clips). The task is to build a system that assigns an anomaly score to an unseen recording so that anomalous recordings receive higher scores than normal ones, in both domains. Anomalous recordings are available only in the test set and may be used for evaluation alone: never for training, model selection or threshold calibration. The problem statement fixes the representation (log-Mel spectrograms), the model family (an Autoencoder trained on normal data) and the three experiments listed in the introduction.
+
+\section{Objectives}
+\begin{enumerate}
+  \item Audit the seven development archives and establish counts, domains, labels, sampling rate, channel count and duration from the files themselves rather than from the documentation.
+  \item Implement one deterministic preprocessing and feature-extraction pipeline that treats both channels and is shared, unchanged, by training and inference.
+  \item For every machine, train Model~A (990 source normals) and Model~B (990 source + 10 target normals) with the same architecture, optimiser, seed and epoch budget.
+  \item Prepare the mean, covariance and regularised precision of normal latent codes and residual frames so that Mahalanobis scoring is possible without re-reading the training data.
+  \item Score all test recordings with reconstruction MSE, latent Mahalanobis distance and residual Mahalanobis distance; calibrate thresholds without any test data; report AUC, pAUC, precision, recall and F1 overall and per domain.
+  \item Compare Model~A with Model~B and the three scoring methods, per machine and on average.
+  \item Deliver a reproducible code base with verification reports and a working demonstration application.
+\end{enumerate}
+
+\section{Division of work}
+\begin{table}[!htb]\centering\footnotesize\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}p{0.26\textwidth}p{0.68\textwidth}@{}}\toprule
+\textbf{Part 1 -- \studentOne} & Archive inspection and full dataset audit; two-channel preprocessing and feature caching; Autoencoder implementation; training of the 14 models in a resumable Colab pipeline; Mahalanobis statistics; twelve-point model verification; handover package and library module. \\
+\textbf{Part 2 -- \studentTwo} & Scoring of the 2\,800 test and 14\,000 calibration recordings; Gamma-based thresholds; binary predictions; AUC, pAUC, precision, recall and F1; model and method comparisons and graphs; Streamlit application. \\
+\bottomrule\end{tabular}
+\caption{Division of work between the two team members.}
+\label{tab:division}
+\end{table}

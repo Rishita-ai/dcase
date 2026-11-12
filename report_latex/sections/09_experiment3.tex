@@ -1,0 +1,5 @@
+\section{Purpose}
+Only ten target-domain recordings are available for training, about one percent of the training set. Experiment~3 asks a simple question: does including them help the detector in the target domain, and does it cost anything in the source domain?
+
+\section{Design}
+For every machine the same architecture, preprocessing, optimiser, seed and epoch budget are used twice. Model~A is trained on the 990 source normals, Model~B on the 990 source normals plus the 10 target normals. Each model computes its standardisation statistics from its own training set, so the ten target clips influence Model~B in two ways: through the gradient updates and, slightly, through the feature scaling. Both models are then scored with all three methods on the identical 200 test recordings of each machine and compared with the same metrics in Chapter~\ref{ch:results}. We deliberately do not compare the two models by their training loss. Their losses are measured on differently standardised features, and in any case a lower reconstruction error on normal sound says nothing about how well anomalies are separated.

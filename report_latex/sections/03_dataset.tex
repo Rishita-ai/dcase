@@ -1,0 +1,12 @@
+\section{Source and organisation}
+The development dataset \cite{dcase2026data} is distributed as one ZIP archive per machine type. Inside each archive a \texttt{train/} folder holds the normal training recordings of the source domain (990) and the target domain (10), and a \texttt{test/} folder holds 100 source-domain and 100 target-domain recordings, half normal and half anomalous in each domain. The file name carries everything we need to know about a clip, for example \texttt{section\_00\_source\_train\_} \texttt{normal\_0001\_\ldots.wav}: section, domain, split, label and index. One practical detail cost us some care. The folder name inside an archive is not the archive name; the archive \texttt{dev\_sliderEmu.zip}, for instance, unpacks to a folder called \texttt{sliderEmu}. The pipeline therefore reads the archive index and discovers the machine folder instead of assuming it.
+
+\section{What the audit found}
+Before anything was trained, every one of the $7\times1200$ recordings was opened; its sampling rate, channel count, duration and an MD5 digest were recorded in \texttt{dataset\_audit.csv} (8\,400 rows). Table~\ref{tab:dataset} summarises the outcome. All recordings are 16\,kHz two-channel WAV files, none was unreadable, and there were no duplicate names or duplicate contents. The problem statement describes clips of roughly eleven seconds; in the data the duration depends on the machine: 11\,s for ToyCar, 12\,s for ToyCar (Emu) and 10\,s for the other five. This matters later because the number of analysis windows per clip differs accordingly. The description of the dataset also mentions supplemental noise-only clips; none were present in the archives we audited, and none were used.
+
+\input{tables/dataset}
+
+A note on the two channels. The task description speaks of two microphones, but nothing in an individual file tells us which channel corresponds to which position, and a stereo file by itself does not prove that two physically separate microphones were used. Throughout this work the channels are therefore called Channel~1 and Channel~2 and are treated symmetrically.
+
+\section{How the splits were used}
+Under the protocol adopted for the experiments (Section~\ref{sec:protocol}) all 990 source normals train Model~A and all 1\,000 normals train Model~B. Nothing is held out, so there is no validation set. The 200 test recordings per machine were touched only in Part~2, and only to compute scores and metrics.

@@ -1,0 +1,19 @@
+\begin{table}[!htb]
+\centering
+\caption{Metrics averaged over the seven machine types (test sets, 200 recordings each). AUC src/tgt follow the DCASE definition (domain normals versus all anomalies). F1 uses the Gamma 90th-percentile threshold fitted on training-set scores.}
+\label{tab:average}
+\footnotesize
+\renewcommand{\arraystretch}{1.18}
+\begin{tabular}{lrrrrrrr}
+\toprule
+Model & Scoring & AUC & pAUC & AUC src & AUC tgt & F1 src & F1 tgt \\
+\midrule
+A & MSE & 0.547 & 0.516 & 0.658 & 0.436 & 0.398 & 0.451 \\
+A & Lat.\,Mah. & 0.466 & 0.494 & 0.473 & 0.459 & 0.120 & 0.085 \\
+A & Res.\,Mah. & 0.557 & 0.530 & 0.653 & 0.460 & 0.450 & 0.441 \\
+B & MSE & 0.568 & 0.531 & 0.653 & 0.484 & 0.403 & 0.468 \\
+B & Lat.\,Mah. & 0.457 & 0.491 & 0.485 & 0.429 & 0.125 & 0.121 \\
+B & Res.\,Mah. & 0.573 & 0.537 & 0.650 & 0.496 & 0.444 & 0.449 \\
+\bottomrule
+\end{tabular}
+\end{table}

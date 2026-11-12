@@ -1,0 +1,70 @@
+\section{Project folder structure}\label{app:folders}
+\begin{lstlisting}
+DCASE_2026_PART1_COMPLETE/
+  Dataset_Audit/            archive_structure.json, dataset_audit.csv (8400 rows), dataset_summary.json,
+                            dataset_file_manifest.csv, dataset_integrity_report.md, per-machine files
+  Preprocessing/            preprocessing_code/dcase_part1_lib.py, preprocessing_configs/<m>_*.json|npz
+  Models/<m>/Source_Only|Source_Target/  <variant>_autoencoder.pth, *_model_config.json,
+                            *_COMPLETE.json, TRAINING_PROTOCOL.txt, epoch_NNN.pth snapshots
+  Training_Histories/       <m>_<variant>_training_history.csv, ALL_MACHINES_training_summary.csv
+  Loss_Curves/              per-model and per-machine PNG, ALL_MACHINES_loss_curves.png
+  Mahalanobis_Statistics/<m>/  <variant>_<group>_mahalanobis_stats.npz (groups: source_train,
+                            target_train, all_train), <variant>_mahalanobis_report.json
+  Configurations/           common_config.json, environment.json, pipeline_state.json
+  Verification_Reports/     <m>_verification.md/.csv, ALL_MACHINES_verification_summary.csv
+  Handover/ and DCASE_2026_PART1_COMPLETE_HANDOVER.zip (225 files, 55.3 MB)
+Part2_Results/
+  Test_Scores/              2800 rows: mse_score and latent/residual Mahalanobis to 3 groups
+  Calibration_Scores/       14000 rows of training-normal scores
+  Thresholds/               all_machine_thresholds.csv (42 rows, Gamma fit, 90th percentile)
+  Binary_Predictions/       8400 rows (2800 recordings x 3 methods)
+  Metrics/                  all_machine_metrics.csv (42 rows), Comparisons/, Graphs/
+\end{lstlisting}
+
+\section{Common configuration}
+\begin{lstlisting}
+sample_rate 16000, n_fft 1024, hop_length 512, n_mels 128, context_frames 5, power 2.0,
+channel_mode "concat", normalise true, window_stride 1, epochs 100, batch_size 256,
+learning_rate 0.001, seed 42, val_fraction 0.0, early_stop_patience null, split_protocol "spec_full"
+\end{lstlisting}
+
+\section{Model definition (from \texttt{dcase\_part1\_lib.py})}
+\begin{lstlisting}[language=Python]
+def dense_block(i, o):
+    return nn.Sequential(nn.Linear(i, o), nn.BatchNorm1d(o, momentum=0.01, eps=1e-3), nn.ReLU())
+
+class DCASEAutoencoder(nn.Module):
+    def __init__(self, input_dim, hidden=128, latent=8, n_hidden=4):
+        super().__init__()
+        enc = [dense_block(input_dim, hidden)] + [dense_block(hidden, hidden) for _ in range(n_hidden-1)] \
+              + [dense_block(hidden, latent)]
+        dec = [dense_block(latent, hidden)] + [dense_block(hidden, hidden) for _ in range(n_hidden-1)] \
+              + [nn.Linear(hidden, input_dim)]
+        self.encoder, self.decoder = nn.Sequential(*enc), nn.Sequential(*dec)
+    def forward(self, x):
+        z = self.encoder(x)
+        return self.decoder(z), z
+\end{lstlisting}
+
+\section{Scoring interface used by Part 2 and the application}
+\begin{lstlisting}[language=Python]
+model, ck = p1.load_checkpoint(".../Models/Fan/Source_Target/source_target_autoencoder.pth")
+x   = p1.wav_to_model_input(wav_path, ck)        # (n_windows, 1280), standardised with ck statistics
+res = p1.run_inference(model, x)                 # reconstruction, latent (n, 8), window_mse, residual
+S   = p1.load_mahalanobis_stats(".../Mahalanobis_Statistics/Fan/source_target_all_train_mahalanobis_stats.npz")
+mse      = res["window_mse"].mean()
+d_latent = p1.mahalanobis_sq(res["latent"], S["latent_mean"], S["latent_precision"]).mean()
+d_resid  = p1.mahalanobis_sq(res["residual"].reshape(-1, 256), S["residual_mean"], S["residual_precision"]).mean()
+\end{lstlisting}
+
+\section{Checks performed in the final audit}
+\begin{enumerate}
+  \item Test-score files: 2\,800 rows, 200 per machine and model; domain and label columns agree with the file names; window counts agree with clip durations (309, 340, 372); all scores finite and positive; per-machine files identical to the combined file.
+  \item Calibration files: 14\,000 rows, all from \texttt{train/} normal recordings; no test file present.
+  \item Thresholds: all 42 re-fitted from the calibration scores, maximum relative difference $2\times10^{-14}$.
+  \item Predictions: 8\,400 rows; every score equals the corresponding entry of the score file and every decision follows from its threshold.
+  \item Metrics: all 42 rows and the averages recomputed, maximum absolute difference $8\times10^{-17}$.
+  \item Model and statistics files: 71 files byte-identical between the application package and the Part~1 handover archive.
+  \item Verification summary: 14 of 14 models passed; pipeline state \texttt{COMPLETE} for all seven machines, handover \texttt{VERIFIED} (216 required files).
+  \item Hardware: all 14 checkpoints record \texttt{device: cuda} with timestamps on 9~November~2026; the CPU record in \texttt{environment.json} belongs to the handover-verification session of 10~November.
+\end{enumerate}

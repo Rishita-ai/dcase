@@ -1,0 +1,24 @@
+\section{Overview}
+Figure~\ref{fig:pipeline} shows the whole system in one line. A recording becomes a sequence of two-channel log-Mel frames; the frames are standardised with statistics that were stored inside the model checkpoint at training time; five consecutive frames are flattened into one 1280-dimensional window; the Autoencoder reconstructs each window and, on the way, produces an eight-dimensional latent code. From these quantities three scores are formed per window and averaged over the recording: the reconstruction mean squared error (Experiment~1), the squared Mahalanobis distance of the latent code, and the squared Mahalanobis distance of each 256-dimensional residual frame (Experiment~2). The recording is declared anomalous if its score exceeds a threshold calibrated on the scores of the training recordings.
+
+\begin{figure}[!htb]\centering
+\resizebox{\textwidth}{!}{\begin{tikzpicture}[node distance=3mm,every node/.style={draw,rounded corners=2pt,align=center,font=\footnotesize,inner sep=4pt,minimum height=9mm,fill=white}]
+\node (a) {WAV\\2 ch, 16 kHz};
+\node (b) [right=of a] {log-Mel per channel\\128 bands, $n_\mathrm{fft}$ 1024, hop 512};
+\node (c) [right=of b] {concatenate\\256-dim frame};
+\node (d) [right=of c] {z-score\\(checkpoint stats)};
+\node (e) [below=6mm of d] {5-frame window\\1280-dim};
+\node (f) [left=of e] {Autoencoder\\$1280\!\to\!\cdots\!\to\!8\!\to\!\cdots\!\to\!1280$};
+\node (g) [left=of f] {scores per window\\MSE, latent $D^2$, residual $D^2$};
+\node (h) [left=of g] {mean per clip,\\threshold, decision};
+\foreach \p/\q in {a/b,b/c,c/d,d/e,e/f,f/g,g/h} \draw[-latex] (\p) -- (\q);
+\end{tikzpicture}}
+\caption{Processing pipeline. The same code path is used for training, for scoring the test sets and inside the application.}
+\label{fig:pipeline}
+\end{figure}
+
+\section{Relation to the official baseline}
+Our design stays close to the official DCASE Autoencoder baseline \cite{harada2023}: the same spectral parameters, the same $128\times4\to8\to128\times4$ topology, 100 epochs, batch size 256, Adam with learning rate $10^{-3}$, no validation set, and scoring by MSE or Mahalanobis distance. We deviate in three ways, each of which is documented where it occurs. We use both channels (the baseline reads both but computes features from the first only); we standardise every feature dimension; and we compute Mahalanobis statistics in the latent space and in the 256-dimensional residual space rather than on 128-dimensional blocks of the raw reconstruction error. Because of these differences our numbers are not comparable with published baseline results, and we do not present them as such.
+
+\section{Software structure}
+Part~1 is one Google Colab notebook that processes the machines strictly one after another. It keeps a state file and a completion marker for every step, so that a disconnected session can be resumed by simply running the notebook again. At the end it writes the folder tree reproduced in Appendix~\ref{app:folders} and a verified handover archive. The functions that define preprocessing, the model and inference are collected in a module, \texttt{dcase\_part1\_lib.py}, that the notebook generates from its own cells. The Part~2 scripts and the Streamlit application import this module, which is how we guarantee that a recording scored in the application is processed exactly as it was during evaluation.

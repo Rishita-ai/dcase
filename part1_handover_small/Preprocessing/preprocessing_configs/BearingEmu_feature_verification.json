@@ -1,0 +1,12 @@
+{
+  "machine": "BearingEmu",
+  "frame_dim": 256,
+  "input_dim": 1280,
+  "source_frames": 309870,
+  "target_frames": 3130,
+  "frames_per_recording_min": 313,
+  "frames_per_recording_max": 313,
+  "all_finite": true,
+  "feature_signature": "97a6b5e9",
+  "windows_per_recording": 309
+}

@@ -1,0 +1,179 @@
+\documentclass[12pt,a4paper,oneside]{report}
+% ---------------------------------------------------------------------------
+%  Noise-aware Unsupervised Anomalous Sound Detection (DCASE 2026 Task 2)
+%  M.Tech CSE (AI and DS) AI Laboratory project report
+% ---------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}                 % Times-style text and mathematics
+\usepackage[scaled=0.92]{helvet}
+\usepackage{courier}
+\usepackage[a4paper,top=3.0cm,bottom=3.0cm,left=2.8cm,right=2.8cm,headheight=15pt,headsep=0.8cm,footskip=1.2cm]{geometry}
+\usepackage{graphicx,booktabs,array,longtable,float,caption,subcaption}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc,positioning}
+\usepackage{eso-pic}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{listings}
+\PassOptionsToPackage{hyphens}{url}\usepackage{url}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+% ---- colours (restrained) --------------------------------------------------
+\definecolor{inkblue}{RGB}{28,52,94}
+\definecolor{rule}{RGB}{90,90,90}
+
+% ---- page frame: thin double line on every page -----------------------------
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \draw[line width=0.9pt,color=inkblue] ($(current page.south west)+(1.35cm,1.35cm)$) rectangle ($(current page.north east)+(-1.35cm,-1.35cm)$);
+    \draw[line width=0.3pt,color=inkblue] ($(current page.south west)+(1.55cm,1.55cm)$) rectangle ($(current page.north east)+(-1.55cm,-1.55cm)$);
+  \end{tikzpicture}}
+
+% ---- headers and footers ---------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\itshape\nouppercase{\leftmark}}
+\renewcommand{\chaptermark}[1]{\markboth{Chapter \thechapter.\ #1}{}}
+\fancyhead[R]{\small DCASE 2026 Task 2}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\small\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+% ---- headings --------------------------------------------------------------
+\titleformat{\chapter}[display]{\normalfont\color{inkblue}}{\filright\large\scshape Chapter \thechapter}{0.6em}{\titlerule[0.6pt]\vspace{0.5em}\huge\bfseries\filright}[{\vspace{0.4em}\titlerule[0.6pt]}]
+\titlespacing*{\chapter}{0pt}{0pt}{2.2em}
+\titleformat{\section}{\large\bfseries\color{inkblue}}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.6em}{0.7em}
+\titlespacing*{\subsection}{0pt}{1.2em}{0.5em}
+
+% ---- captions, lists, spacing, listings ------------------------------------
+\captionsetup{font=small,labelfont={bf,color=inkblue},width=0.92\textwidth,skip=6pt}
+\setlist{nosep,leftmargin=*}
+\onehalfspacing
+\setlength{\parskip}{0.35em}
+\graphicspath{{figures/}}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,frame=single,rulecolor=\color{rule},framesep=4pt,columns=fullflexible,keepspaces=true,xleftmargin=4pt}
+\renewcommand{\arraystretch}{1.15}
+\renewcommand{\topfraction}{0.85}\renewcommand{\bottomfraction}{0.6}\renewcommand{\textfraction}{0.1}\renewcommand{\floatpagefraction}{0.75}
+
+% ======================= FILL IN BEFORE SUBMISSION =======================
+\newcommand{\universityName}{[University / Institute name]}
+\newcommand{\departmentName}{Department of Computer Science and Engineering}
+\newcommand{\programmeName}{M.Tech. in Computer Science and Engineering (AI and Data Science)}
+\newcommand{\courseName}{AI Laboratory}
+\newcommand{\studentOne}{Rishita Vyas}
+\newcommand{\studentOneId}{AU2644017}
+\newcommand{\studentTwo}{Tamanna Khirshriya}
+\newcommand{\studentTwoId}{AU2644[\,remaining digits\,]}
+\newcommand{\supervisorName}{[Faculty supervisor name]}
+\newcommand{\academicYear}{2026--27}
+\newcommand{\submissionMonth}{November 2026}
+% ==========================================================================
+
+\begin{document}
+
+% ---------------------------- cover page ------------------------------------
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\vspace*{0.4cm}
+{\large\scshape \universityName\par}
+\vspace{0.3cm}
+{\normalsize \departmentName\par}
+\vspace{1.4cm}
+{\color{inkblue}\rule{0.6\textwidth}{0.6pt}\par}
+\vspace{0.9cm}
+{\LARGE\bfseries Noise-aware Unsupervised Anomalous Sound Detection for Machine Condition Monitoring\par}
+\vspace{0.8cm}
+{\large DCASE 2026 Challenge -- Task 2\par}
+\vspace{0.9cm}
+{\color{inkblue}\rule{0.6\textwidth}{0.6pt}\par}
+\vspace{1.3cm}
+{\normalsize A project report submitted for the course\par}
+{\large\itshape \courseName\par}
+\vspace{0.3cm}
+{\normalsize \programmeName\par}
+\vspace{1.6cm}
+\begin{tabular}{@{}p{0.52\textwidth}p{0.42\textwidth}@{}}
+\multicolumn{2}{@{}l}{\textbf{Submitted by}}\\[4pt]
+Part 1 -- Data, preprocessing and model training & \studentOne{} (\studentOneId)\\[4pt]
+Part 2 -- Anomaly scoring, evaluation and application & \studentTwo{} (\studentTwoId)\\[12pt]
+\textbf{Faculty supervisor} & \supervisorName\\
+\end{tabular}
+\vfill
+{\normalsize Academic year \academicYear\par}
+{\normalsize \submissionMonth\par}
+\end{center}
+\end{titlepage}
+
+% ---------------------------- front matter ----------------------------------
+\pagenumbering{roman}
+\chapter*{Declaration}
+\addcontentsline{toc}{chapter}{Declaration}
+We declare that the work presented in this report was carried out by us as part of the \courseName{} course of the \programmeName{} programme. Part~1 (dataset audit, preprocessing, Autoencoder training and the handover package) was implemented by \studentOne{} and Part~2 (anomaly scoring, threshold calibration, evaluation and the demonstration application) by \studentTwo. All results reported here were produced by the submitted code on the DCASE 2026 Task~2 development data; every figure in the results tables was recomputed from the raw per-recording score files during a final audit. Sources used are cited in the references.
+
+\vspace{1.5cm}
+\noindent\begin{tabular}{@{}p{0.48\textwidth}p{0.48\textwidth}@{}}
+\studentOne{} (\studentOneId) & \studentTwo{} (\studentTwoId)\\[1.2cm]
+\rule{5cm}{0.4pt} & \rule{5cm}{0.4pt}\\
+Signature and date & Signature and date
+\end{tabular}
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\input{sections/00_abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+\cleardoublepage
+\pagenumbering{arabic}
+
+% ---------------------------- chapters --------------------------------------
+\chapter{Introduction}\label{ch:intro}
+\input{sections/01_introduction}
+\chapter{Problem Statement and Objectives}\label{ch:problem}
+\input{sections/02_problem_objectives}
+\chapter{Dataset}\label{ch:dataset}
+\input{sections/03_dataset}
+\chapter{System Architecture and Methodology}\label{ch:method}
+\input{sections/04_methodology}
+\chapter[Audio Preprocessing and Features]{Audio Preprocessing and Feature Extraction}\label{ch:prep}
+\input{sections/05_preprocessing}
+\chapter{Autoencoder Architecture}\label{ch:ae}
+\input{sections/06_autoencoder}
+\chapter[Experiment 1: Autoencoder Training and MSE Scoring]{Experiment 1: Autoencoder Training and Reconstruction-based Scoring}\label{ch:exp1}
+\input{sections/07_experiment1}
+\chapter{Experiment 2: Mahalanobis-distance Scoring}\label{ch:exp2}
+\input{sections/08_experiment2}
+\chapter[Experiment 3: Source-only versus Source + Target]{Experiment 3: Source-only versus Source\,+\,Target Training}\label{ch:exp3}
+\input{sections/09_experiment3}
+\chapter{Implementation Environment}\label{ch:env}
+\input{sections/10_environment}
+\chapter{Results and Evaluation}\label{ch:results}
+\input{sections/11_results}
+\chapter{Streamlit Application}\label{ch:app}
+\input{sections/12_application}
+\chapter{Discussion and Limitations}\label{ch:discussion}
+\input{sections/13_discussion}
+\chapter{Conclusion and Future Work}\label{ch:conclusion}
+\input{sections/15_conclusion}
+
+\bibliographystyle{ieeetr}
+\bibliography{references}
+\addcontentsline{toc}{chapter}{References}
+
+\appendix
+\chapter{Technical Appendix}\label{app:tech}
+\input{sections/appendix}
+
+\end{document}

@@ -1,0 +1,58 @@
+\section{Metrics and how they were checked}
+AUC is the area under the ROC curve over all 200 test recordings of a machine. pAUC is the partial area for false-positive rates up to 0.1, normalised to the range $[0,1]$ (scikit-learn's \texttt{roc\_auc\_score} with \texttt{max\_fpr=0.1}), and rewards methods that catch anomalies before they start raising many false alarms. The domain AUCs follow the DCASE convention: the normal recordings of one domain are compared against \emph{all} anomalous recordings, so that a model which merely scores one domain higher than the other is not rewarded. Precision, recall and F1 are computed within each domain at the calibrated threshold.
+
+Every number in this chapter was recomputed during the final audit from the per-recording score and prediction files, independently of the scripts that first produced it. The recomputed thresholds agree with the delivered ones to a relative difference of $2\times10^{-14}$, all 8\,400 decisions follow from their thresholds, and the recomputed metrics agree with \texttt{all\_machine\_metrics.csv} to $8\times10^{-17}$.
+
+\section{Average results}
+\input{tables/average_comparison}
+\begin{figure}[!htb]\centering
+\includegraphics[width=0.95\textwidth]{fig_average_comparison}
+\caption{AUC, pAUC and domain AUCs averaged over the seven machine types for the six combinations of model and scoring method. The dashed line marks chance level.}
+\label{fig:avg}
+\end{figure}
+
+Table~\ref{tab:average} and Figure~\ref{fig:avg} support three statements. First, scoring by residual Mahalanobis distance and by reconstruction MSE give similar results, with the residual distance slightly ahead on every averaged metric: AUC 0.557 against 0.547 for Model~A and 0.573 against 0.568 for Model~B. Second, scoring in the latent space does not work here. Its average AUC of 0.466 (Model~A) and 0.457 (Model~B) is at or below chance, which tells us that the eight-dimensional bottleneck, trained only to reconstruct, maps anomalous windows to codes that are no further from the normal cloud than normal windows are. Third, every configuration performs much better in the source domain (average AUC about 0.65) than in the target domain (0.43 to 0.50). We return to this gap in Section~\ref{sec:domain}.
+
+\section{Results per machine}
+\input{tables/machine_auc}
+\input{tables/machine_pauc}
+\begin{figure}[!htb]\centering
+\includegraphics[width=\textwidth]{fig_auc_per_machine}
+\caption{Overall AUC per machine type and scoring method; Model~A on the left, Model~B on the right.}
+\label{fig:aucmach}
+\end{figure}
+\begin{figure}[!htb]\centering
+\includegraphics[width=\textwidth]{fig_pauc_per_machine}
+\caption{Partial AUC (false-positive rate $\le 0.1$) per machine type and scoring method.}
+\label{fig:paucmach}
+\end{figure}
+\input{tables/best_per_machine}
+
+The highest overall AUC is reached on Valve (Emu) with Model~B and residual Mahalanobis scoring (0.624); ToyCar is the hardest machine, with 0.524 at best. For MSE and residual scoring the pAUC values lie between 0.48 and 0.60, which means that at low false-alarm rates the separation is modest for every machine. Latent Mahalanobis scoring is below 0.5 on four of the seven machines and falls to 0.33 on Valve (Emu), where it ranks anomalies systematically \emph{below} normal recordings.
+
+\section{Model A versus Model B}
+Adding the ten target recordings raises the overall AUC in 16 of the 21 machine-and-method combinations and the pAUC in 14 of 21. The improvements are small: the median AUC gain is about $+0.02$ for MSE and residual scoring, the largest is $+0.045$ on ToyCar (Emu) with MSE, and on Fan both scores decrease slightly. Averaged over machines, Model~B is ahead by 0.020 AUC with MSE and by 0.016 with residual Mahalanobis scoring. The direction is consistent, but with 200 test recordings per machine and one training run per model, differences of this size should be read as a tendency rather than as a demonstrated advantage.
+
+\section{Source domain versus target domain}\label{sec:domain}
+\input{tables/domain_modelA}
+\input{tables/domain_modelB}
+\begin{figure}[!htb]\centering
+\includegraphics[width=\textwidth]{fig_domain_modelB}
+\caption{Model~B: source-domain and target-domain AUC (DCASE definition) per machine, for MSE and residual Mahalanobis scoring.}
+\label{fig:domain}
+\end{figure}
+
+Source-domain AUCs for MSE and residual scoring lie between 0.57 and 0.74, target-domain AUCs mostly between 0.38 and 0.55, and for several machines below 0.5. A target AUC below 0.5 has a concrete meaning: normal target-domain recordings receive \emph{higher} scores than anomalous recordings. The change of recording conditions raises the reconstruction error of a perfectly healthy target clip by more than a fault raises it, so the detector reacts to the environment rather than to the machine. Model~B narrows this gap, its average target AUC is 0.48 to 0.50 against 0.44 to 0.46 for Model~A, but ten recordings are not enough to close it.
+
+\section{Decision rates and the cost of training-set calibration}\label{sec:rates}
+\input{tables/decision_rates}
+If training and unseen normal recordings had the same score distribution, a threshold at the 90th percentile of training scores would flag about 10\,\% of unseen normals. Table~\ref{tab:rates} shows what actually happens: with MSE and residual scoring 34 to 36\,\% of normal test recordings are flagged, 22 to 25\,\% in the source domain and 43 to 47\,\% in the target domain, while only 42 to 44\,\% of anomalous recordings are caught. This is the optimism of training-set calibration made visible, strongest where the domain shift is largest, and it is the reason the F1 values in Tables~\ref{tab:domain_A} and \ref{tab:domain_B} are low. The latent Mahalanobis thresholds behave differently (about 10\,\% false positives but only 6 to 8\,\% true positives) simply because that score hardly separates the classes at all.
+
+\begin{figure}[!htb]\centering
+\includegraphics[width=\textwidth]{fig_scores_valve}
+\caption{Valve (Emu), Model~B, residual Mahalanobis: score distributions of normal and anomalous test recordings with the calibrated threshold; source domain on the left, target domain on the right. In the target domain many normal recordings lie above the threshold.}
+\label{fig:valve}
+\end{figure}
+
+\section{Best-performing combination}
+On the actual data the best average configuration is \textbf{Model~B with residual Mahalanobis scoring}: AUC 0.573, pAUC 0.537, source AUC 0.650, target AUC 0.496. Model~B with MSE follows closely (0.568, 0.531, 0.653, 0.484). The margin between the two is within what seven machines and 200 test clips each can resolve, so the fair conclusion is that residual-space Mahalanobis scoring is at least as good as reconstruction MSE on this data, not that it is clearly better.
