@@ -6,8 +6,7 @@ M.Tech CSE (AI and Data Science) AI Laboratory project. Autoencoder-based anomal
 |---|---|
 | Part 1 (data audit, preprocessing, model training, handover) | Rishita Vyas (AU2644017) |
 | Part 2 (scoring, thresholds, metrics, comparison, Streamlit app) | Tamanna Khirshriya (AU2644[remaining digits to be confirmed]) |
-| Report | `docs/Project_Report.pdf` |
-| Slides | `docs/Project_Presentation.pdf` |
+
 
 ## Results at a glance (test sets, 7 machines x 200 recordings, recomputed in the final audit)
 
