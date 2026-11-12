@@ -27,7 +27,6 @@ Thresholds are the 90th percentile of a Gamma fit to training-normal scores (off
 notebooks/   DCASE_2026_PART1_MASTER_COLAB.ipynb (clean) and *_executed.ipynb (with the real run's outputs)
 src/         dcase_part1_lib.py (preprocessing, model, inference) and part2/ scripts (scoring, thresholds, metrics, app.py)
 results/     metrics, thresholds, comparisons, training histories, figures
-docs/        report PDF, slides PDF, Part 1 implementation report, protocol and calibration note, audit and verification reports
 part1_handover_small/  configurations and per-machine preprocessing configs (no binaries)
 MODELS_AND_DATA.md     what is excluded from the repository and where to get it
 ```
