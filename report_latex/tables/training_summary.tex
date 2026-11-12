@@ -1,0 +1,27 @@
+\begin{table}[!htb]
+\centering
+\caption{Training summary for the 14 models (spec\_full protocol: fixed 100 epochs, final-epoch checkpoint, no validation set). Training executed on a CUDA GPU in Google Colab on 9 November 2026.}
+\label{tab:training}
+\footnotesize
+\renewcommand{\arraystretch}{1.18}
+\resizebox{\textwidth}{!}{\begin{tabular}{lrrrrrrr}
+\toprule
+Machine & Model & Source rec. & Target rec. & Train windows & Epochs & Final train MSE & Minutes \\
+\midrule
+ToyCar & A & 990 & 0 & 336600 & 100 & 0.474 & 14.600 \\
+ToyCar & B & 990 & 10 & 340000 & 100 & 0.475 & 13.000 \\
+ToyCarEmu & A & 990 & 0 & 368280 & 100 & 0.496 & 16.300 \\
+ToyCarEmu & B & 990 & 10 & 372000 & 100 & 0.496 & 14.400 \\
+Fan & A & 990 & 0 & 305910 & 100 & 0.729 & 13.700 \\
+Fan & B & 990 & 10 & 309000 & 100 & 0.731 & 11.900 \\
+GearboxEmu & A & 990 & 0 & 305910 & 100 & 0.376 & 13.600 \\
+GearboxEmu & B & 990 & 10 & 309000 & 100 & 0.377 & 11.900 \\
+BearingEmu & A & 990 & 0 & 305910 & 100 & 0.472 & 13.700 \\
+BearingEmu & B & 990 & 10 & 309000 & 100 & 0.472 & 12.000 \\
+SlideRailEmu & A & 990 & 0 & 305910 & 100 & 0.465 & 13.700 \\
+SlideRailEmu & B & 990 & 10 & 309000 & 100 & 0.464 & 12.000 \\
+ValveEmu & A & 990 & 0 & 305910 & 100 & 0.522 & 13.700 \\
+ValveEmu & B & 990 & 10 & 309000 & 100 & 0.522 & 12.000 \\
+\bottomrule
+\end{tabular}}
+\end{table}
